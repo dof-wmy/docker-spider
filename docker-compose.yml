@@ -1,0 +1,39 @@
+version: '2.1'
+
+services:
+  # spider
+  spider:
+    image: wangmengyang/spider
+    volumes:
+      - ./app:/usr/src/app
+    networks:
+      app_net:
+        ipv4_address: "${SPIDER_IP}"
+    env_file:
+      - .env
+
+  # mongo
+  mongo:
+    image: mongo:3.7.9
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017"
+      - "27018:27017"
+    volumes:
+      - ./mongo/db:/data/db
+    env_file:
+      - .env
+    networks:
+      app_net:
+        ipv4_address: "${MONGO_IP}"
+
+networks:
+      app_net:
+        driver: bridge
+        enable_ipv6: false
+        ipam:
+          driver: default
+          config:
+          -
+            subnet: 172.101.0.0/16 
