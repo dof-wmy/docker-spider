@@ -1,0 +1,3 @@
+# docker-spider
+
+# scrapy + mongo
